@@ -7,7 +7,6 @@ import Loading from './Loading'
 
 export default function Home() {
   const { response, loading } = useTeamNames()
-  console.log(response, loading)
 
   if (loading) {
     return <Loading />

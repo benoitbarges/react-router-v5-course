@@ -1,12 +1,15 @@
 import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import Home from './Home'
-import Teams from './Teams'
-import Players from './Players'
+import Loading from './Loading'
 import Navbar from './Navbar'
-import TeamPage from './TeamPage'
-import Articles from './Articles'
+
+const Home = React.lazy(() => import('./Home'))
+const Teams = React.lazy(() => import('./Teams'))
+const Players = React.lazy(() => import('./Players'))
+const TeamPage = React.lazy(() => import('./TeamPage'))
+const Articles = React.lazy(() => import('./Articles'))
+
 
 function FourOFour() {
   return (
@@ -21,14 +24,16 @@ export default function App () {
     <Router>
       <Navbar />
 
-      <Switch>
-        <Route exact path='/' component={Home} />
-        <Route path='/teams' component={Teams} />
-        <Route path='/players' component={Players} />
-        <Route exact path='/:teamId' component={TeamPage} />
-        <Route path='/:teamId/articles' component={Articles} />
-        <Route component={FourOFour} />
-      </Switch>
+      <React.Suspense fallback={<Loading />}>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/teams' component={Teams} />
+          <Route path='/players' component={Players} />
+          <Route exact path='/:teamId' component={TeamPage} />
+          <Route path='/:teamId/articles' component={Articles} />
+          <Route component={FourOFour} />
+        </Switch>
+      </React.Suspense>
     </Router>
   )
 }
