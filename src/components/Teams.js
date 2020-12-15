@@ -1,7 +1,8 @@
 import React from 'react'
 import useTeamNames from '../hooks/useTeamNames'
-import { Route, Switch, useRouteMatch, useParams, Link } from 'react-router-dom'
+import { Route, Switch, useRouteMatch, useParams, Link, useLocation } from 'react-router-dom'
 import useTeam from '../hooks/useTeam'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import Loading from './Loading'
 import Sidebar from './Sidebar'
@@ -34,6 +35,7 @@ function Team({ teams }) {
 export default function Teams() {
   const { response: names, loading } = useTeamNames()
   const match = useRouteMatch()
+  const location = useLocation()
 
   if (loading) {
     return <Loading />
@@ -45,14 +47,22 @@ export default function Teams() {
         title='Teams'
         list={names}
       />
-      <Switch>
-        <Route path={`${match.url}/:teamId`} >
-          <Team teams={names} />
-        </Route>
-        <Route path='*'>
-          <div className='sidebar-instruction'>Select a team</div>
-        </Route>
-      </Switch>
+      <TransitionGroup className='panel'>
+        <CSSTransition
+          key={location.key}
+          timeout={300}
+          classNames='fade'
+        >
+          <Switch location={location}>
+            <Route path={`${match.url}/:teamId`} >
+              <Team teams={names} />
+            </Route>
+            <Route path='*'>
+              <div className='sidebar-instruction'>Select a team</div>
+            </Route>
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   )
 }

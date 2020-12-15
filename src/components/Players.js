@@ -3,6 +3,7 @@ import usePlayers from '../hooks/usePlayers'
 import { Route, useRouteMatch, useLocation, Switch, useParams, Link } from 'react-router-dom'
 import { parse } from 'query-string'
 import slug from 'slug'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import Sidebar from './Sidebar'
 import Loading from './Loading'
@@ -56,14 +57,22 @@ export default function Players() {
         title='Players'
         list={players.map(player => player.name)}
       />
-      <Switch>
-        <Route path={`${match.url}/:playerId`}>
-          <Player players={players} />
-        </Route>
-        <Route path='*'>
-          <div className='sidebar-instruction'>Select a player</div>
-        </Route>
-      </Switch>
+      <TransitionGroup className='panel'>
+        <CSSTransition
+          key={location.key}
+          timeout={300}
+          classNames='fade'
+        >
+          <Switch location={location} >
+            <Route path={`${match.url}/:playerId`}>
+              <Player players={players} />
+            </Route>
+            <Route path='*'>
+              <div className='sidebar-instruction'>Select a player</div>
+            </Route>
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   )
 }

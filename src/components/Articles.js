@@ -1,7 +1,8 @@
 import React from 'react'
-import { useParams, Switch, useRouteMatch, Route } from 'react-router-dom'
+import { useParams, Switch, useRouteMatch, Route, useLocation } from 'react-router-dom'
 import useTeamsArticles from '../hooks/useTeamsArticles'
 import useArticle from '../hooks/useArticle'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import Sidebar from './Sidebar'
 import Loading from './Loading'
@@ -27,6 +28,7 @@ function Article({ articles })  {
 export default function Articles() {
   const { teamId } = useParams()
   const match = useRouteMatch()
+  const location = useLocation()
   const { response: articles, loading } = useTeamsArticles(teamId)
 
   if (loading) {
@@ -40,14 +42,22 @@ export default function Articles() {
         list={articles.map(article => article.title)}
       />
 
-      <Switch>
-        <Route path={`${match.path}/:articleId`}>
-          <Article articles={articles}/>
-        </Route>
-        <Route path='*'>
-          <div className='sidebar-instruction'>Select an article</div>
-        </Route>
-      </Switch>
+     <TransitionGroup className='panel'>
+        <CSSTransition
+          key={location.key}
+          timeout={300}
+          classNames='fade'
+        >
+          <Switch location={location}>
+            <Route path={`${match.path}/:articleId`}>
+              <Article articles={articles}/>
+            </Route>
+            <Route path='*'>
+              <div className='sidebar-instruction'>Select an article</div>
+            </Route>
+          </Switch>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   )
 }
