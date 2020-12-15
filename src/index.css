@@ -208,17 +208,17 @@ li {
   max-width: 240px;
   min-width: 150px;
   padding: 10px;
-  border: 2px solid black;
   color: var(--white);
   text-align: center;
   background: var(--pink);
   font-weight: 900;
   font-size: 15px;
+  transition: 0.2s ease-in-out;
 }
 
 .btn-main:hover {
   cursor: pointer;
-  font-weight: 500;
+  transform: scale(1.1);
 }
 
 .championships {
