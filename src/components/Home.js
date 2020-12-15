@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import useTeamNames from '../hooks/useTeamNames'
 
 import TeamLogo from './TeamLogo'
+import Loading from './Loading'
 
 export default function Home() {
   const { response, loading } = useTeamNames()
   console.log(response, loading)
 
   if (loading) {
-    return <h1>Loading...</h1>
+    return <Loading />
   }
 
   return (
@@ -22,8 +23,8 @@ export default function Home() {
       </h3>
       <div className='home-grid'>
         {response.map((id) => (
-          <Link to={`/${id}`}>
-            <TeamLogo key={id} id={id} width={'125px'}/>
+          <Link to={`/${id}`} key={id}>
+            <TeamLogo id={id} width={'125px'}/>
           </Link>
         ))}
       </div>
