@@ -44,7 +44,7 @@ export default function Players() {
   const location = useLocation()
 
   const team = location.search ? parse(location.search).teamId : null
-  const { response, loading } = usePlayers(team)
+  const { response: players, loading } = usePlayers(team)
 
   if (loading) {
     return <Loading />
@@ -54,11 +54,11 @@ export default function Players() {
     <div className='container two-column'>
       <Sidebar
         title='Players'
-        list={response.map(player => player.name)}
+        list={players.map(player => player.name)}
       />
       <Switch>
         <Route path={`${match.url}/:playerId`}>
-          <Player players={response} />
+          <Player players={players} />
         </Route>
         <Route path='*'>
           <div className='sidebar-instruction'>Select a player</div>

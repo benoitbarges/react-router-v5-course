@@ -32,7 +32,7 @@ function Team({ teams }) {
 }
 
 export default function Teams() {
-  const { response, loading } = useTeamNames()
+  const { response: names, loading } = useTeamNames()
   const match = useRouteMatch()
 
   if (loading) {
@@ -43,11 +43,11 @@ export default function Teams() {
     <div className='container two-column'>
       <Sidebar
         title='Teams'
-        list={response}
+        list={names}
       />
       <Switch>
         <Route path={`${match.url}/:teamId`} >
-          <Team teams={response} />
+          <Team teams={names} />
         </Route>
         <Route path='*'>
           <div className='sidebar-instruction'>Select a team</div>
