@@ -1,12 +1,30 @@
 import * as React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Home from './Home'
+import Teams from './Teams'
+import Players from './Players'
+import Navbar from './Navbar'
+
+function FourOFour() {
+  return (
+    <div className='container'>
+      <h1 className='text-center'>Page not found</h1>
+    </div>
+  )
+}
 
 export default function App () {
   return (
     <Router>
-      <Home />
+      <Navbar />
+
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/teams' component={Teams} />
+        <Route path='/players' component={Players} />
+        <Route component={FourOFour} />
+      </Switch>
     </Router>
   )
 }
