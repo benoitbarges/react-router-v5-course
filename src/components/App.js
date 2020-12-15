@@ -5,6 +5,7 @@ import Home from './Home'
 import Teams from './Teams'
 import Players from './Players'
 import Navbar from './Navbar'
+import TeamPage from './TeamPage'
 
 function FourOFour() {
   return (
@@ -23,6 +24,7 @@ export default function App () {
         <Route exact path='/' component={Home} />
         <Route path='/teams' component={Teams} />
         <Route path='/players' component={Players} />
+        <Route path='/:teamId' component={TeamPage} />
         <Route component={FourOFour} />
       </Switch>
     </Router>
